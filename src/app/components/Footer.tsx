@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { Zap, MapPin, Phone, Mail, Instagram, Facebook, Youtube } from 'lucide-react'
 
 const socials = [
-  { icon: Instagram, label: 'Instagram', href: '#' },
+  { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/bomba_movil/?hl=es' },
   { icon: Facebook, label: 'Facebook', href: '#' },
   { icon: Youtube, label: 'YouTube', href: '#' },
 ]

@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { motion, AnimatePresence } from 'motion/react'
-import { ShoppingCart, Zap, Menu, X, Search, PhoneCall } from 'lucide-react'
+import { Zap, Menu, X, Phone, MessageCircle } from 'lucide-react'
+
+const WHATSAPP_NUMBER = '34954000000' // Número de la empresa en formato internacional
+const INSTAGRAM_URL = 'https://www.instagram.com/bomba_movil/?hl=es'
 
 const links = [
   { to: '/', label: 'Inicio' },
@@ -10,9 +13,28 @@ const links = [
   { to: '/nosotros', label: 'Nosotros' },
 ]
 
+// Instagram SVG icon (sin dependencia de lucide ya que no tiene el color del SVG exacto de IG)
+function InstagramIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  )
+}
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [cartCount] = useState(2)
   const location = useLocation()
 
   const isActive = (to: string) => {
@@ -24,12 +46,62 @@ export default function Navbar() {
     <header
       className="fixed top-0 left-0 right-0 z-50"
       style={{
-        background: 'rgba(255,255,255,0.95)',
+        background: 'rgba(255,255,255,0.97)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
         borderBottom: '1px solid rgba(10,17,40,0.06)',
       }}
     >
+      {/* ── Top social bar ── */}
+      <div
+        style={{
+          background: '#0A1128',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 h-9 flex items-center justify-end gap-2">
+          {/* WhatsApp */}
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all hover:scale-105"
+            style={{ background: '#25D366', color: 'white' }}
+            aria-label="Contactar por WhatsApp"
+          >
+            <MessageCircle size={12} />
+            WhatsApp
+          </a>
+
+          {/* Instagram */}
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all hover:scale-105"
+            style={{
+              background: 'linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
+              color: 'white',
+            }}
+            aria-label="Seguir en Instagram"
+          >
+            <InstagramIcon size={12} />
+            Instagram
+          </a>
+
+          {/* Phone */}
+          <a
+            href="tel:954000000"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all hover:bg-white/10"
+            style={{ color: 'rgba(255,255,255,0.65)' }}
+          >
+            <Phone size={11} />
+            954 000 000
+          </a>
+        </div>
+      </div>
+
+      {/* ── Main nav bar ── */}
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
@@ -71,33 +143,24 @@ export default function Navbar() {
 
         {/* Right actions */}
         <div className="hidden md:flex items-center gap-2">
-          <button
-            className="p-2 rounded-full transition-colors hover:bg-gray-100"
-            aria-label="Buscar"
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-90"
+            style={{ background: '#25D366', color: 'white' }}
           >
-            <Search size={18} style={{ color: '#0A1128' }} />
-          </button>
+            <MessageCircle size={14} />
+            Escríbenos
+          </a>
 
           <Link
-            to="/catalogo"
+            to="/reparaciones"
             className="flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-90"
             style={{ background: '#FF6B00', color: 'white' }}
           >
-            <PhoneCall size={14} />
-            Vende tu móvil
+            Pedir cita
           </Link>
-
-          <button className="relative p-2 rounded-full transition-colors hover:bg-gray-100">
-            <ShoppingCart size={20} style={{ color: '#0A1128' }} />
-            {cartCount > 0 && (
-              <span
-                className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full flex items-center justify-center text-white"
-                style={{ background: '#FF6B00', fontSize: '10px', fontWeight: 700 }}
-              >
-                {cartCount}
-              </span>
-            )}
-          </button>
         </div>
 
         {/* Mobile toggle */}
@@ -142,25 +205,30 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="flex gap-3 mt-3">
-                <Link
-                  to="/catalogo"
-                  className="flex-1 text-center px-5 py-3 rounded-full text-white text-sm font-semibold"
-                  style={{ background: '#FF6B00' }}
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-full text-white text-sm font-semibold"
+                  style={{ background: '#25D366' }}
                   onClick={() => setMobileOpen(false)}
                 >
-                  Vende tu móvil
-                </Link>
-                <button className="relative p-3 rounded-full" style={{ background: '#F8F9FA' }}>
-                  <ShoppingCart size={20} style={{ color: '#0A1128' }} />
-                  {cartCount > 0 && (
-                    <span
-                      className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full flex items-center justify-center text-white"
-                      style={{ background: '#FF6B00', fontSize: '10px', fontWeight: 700 }}
-                    >
-                      {cartCount}
-                    </span>
-                  )}
-                </button>
+                  <MessageCircle size={15} />
+                  WhatsApp
+                </a>
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-full text-white text-sm font-semibold"
+                  style={{
+                    background: 'linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
+                  }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <InstagramIcon size={15} />
+                  Instagram
+                </a>
               </div>
             </div>
           </motion.div>

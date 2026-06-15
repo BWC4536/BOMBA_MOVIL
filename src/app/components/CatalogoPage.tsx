@@ -355,7 +355,9 @@ export default function CatalogoPage() {
           <div className="flex-1 min-w-0">
             {filteredProducts.length === 0 ? (
               <div className="text-center py-20">
-                <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</p>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(10,17,40,0.06)' }}>
+                  <Search size={28} style={{ color: 'rgba(10,17,40,0.3)' }} />
+                </div>
                 <p style={{ fontWeight: 700, fontSize: '1.2rem', color: NAVY, marginBottom: 8 }}>Sin resultados</p>
                 <p style={{ color: 'rgba(10,17,40,0.5)', fontSize: '0.9rem' }}>
                   Prueba con otros filtros o busca un modelo diferente

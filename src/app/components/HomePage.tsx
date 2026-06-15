@@ -264,7 +264,7 @@ export default function HomePage() {
                 className="px-3.5 py-1.5 rounded-full text-white"
                 style={{ background: ORANGE, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.1em' }}
               >
-                ⚡ NUEVA COLECCIÓN 2025
+                NUEVA COLECCIÓN 2025
               </span>
               <span style={{ color: NAVY, fontSize: '0.85rem', opacity: 0.5 }}>
                 iPhone 16 ya disponible
@@ -327,7 +327,7 @@ export default function HomePage() {
             <motion.div variants={itemUp} className="flex items-center gap-6 flex-wrap">
               {[
                 { value: '5.000+', label: 'Clientes felices' },
-                { value: `4.9★`, label: 'Rating Google', orange: true },
+                { value: '4.9/5', label: 'Rating Google', orange: true },
                 { value: '3 años', label: 'De garantía' },
               ].map(({ value, label, orange }, i) => (
                 <div key={i} className="flex items-center gap-5">
@@ -550,7 +550,7 @@ export default function HomePage() {
                 className="inline-block px-3 py-1 rounded-full mb-6"
                 style={{ background: 'rgba(255,107,0,0.2)', color: ORANGE, fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.1em' }}
               >
-                ♻️ TRADE-IN
+                TRADE-IN
               </span>
               <h2
                 style={{
@@ -596,17 +596,19 @@ export default function HomePage() {
               className="grid grid-cols-2 gap-4"
             >
               {[
-                { model: 'iPhone 14 Pro', value: 'hasta 420€', icon: '📱' },
-                { model: 'iPhone 13', value: 'hasta 270€', icon: '📱' },
-                { model: 'Samsung S23', value: 'hasta 320€', icon: '📱' },
-                { model: 'iPhone 12', value: 'hasta 180€', icon: '📱' },
-              ].map(({ model, value, icon }) => (
+                { model: 'iPhone 14 Pro', value: 'hasta 420€' },
+                { model: 'iPhone 13', value: 'hasta 270€' },
+                { model: 'Samsung S23', value: 'hasta 320€' },
+                { model: 'iPhone 12', value: 'hasta 180€' },
+              ].map(({ model, value }) => (
                 <div
                   key={model}
                   className="rounded-2xl p-5 transition-all hover:scale-[1.02]"
                   style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
                 >
-                  <p className="text-2xl mb-3">{icon}</p>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style={{ background: 'rgba(255,107,0,0.2)' }}>
+                    <Zap size={16} style={{ color: ORANGE }} />
+                  </div>
                   <p style={{ fontWeight: 700, color: 'white', fontSize: '0.9rem', marginBottom: 4 }}>{model}</p>
                   <p style={{ color: ORANGE, fontWeight: 800, fontSize: '1rem' }}>{value}</p>
                 </div>
@@ -662,7 +664,7 @@ export default function HomePage() {
                 className="mt-6 px-4 py-2 rounded-full"
                 style={{ background: 'rgba(255,107,0,0.15)', border: '1px solid rgba(255,107,0,0.3)' }}
               >
-                <p style={{ color: ORANGE, fontSize: '0.8rem', fontWeight: 700 }}>+1.200 Reseñas ⭐</p>
+                <p style={{ color: ORANGE, fontSize: '0.8rem', fontWeight: 700 }}>+1.200 Reseñas verificadas</p>
               </div>
             </motion.div>
 

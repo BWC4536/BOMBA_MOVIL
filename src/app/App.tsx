@@ -4,6 +4,7 @@ import Footer from './components/Footer'
 import HomePage from './components/HomePage'
 import CatalogoPage from './components/CatalogoPage'
 import NosotrosPage from './components/NosotrosPage'
+import ReparacionesPage from './components/ReparacionesPage'
 
 export default function App() {
   return (
@@ -15,7 +16,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/catalogo" element={<CatalogoPage />} />
             <Route path="/nosotros" element={<NosotrosPage />} />
-            <Route path="/reparaciones" element={<NosotrosPage />} />
+            <Route path="/reparaciones" element={<ReparacionesPage />} />
           </Routes>
         </main>
         <Footer />
