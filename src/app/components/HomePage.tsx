@@ -370,14 +370,14 @@ export default function HomePage() {
                 transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
               >
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1652804854453-0f2354bfc350?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=620&q=80"
-                  alt="iPhone 16 Pro Max - BombaMóvil"
+                  src="/images/iphone17promax_hero.png"
+                  alt="iPhone 17 Pro Max - BombaMóvil"
                   className="object-contain"
                   style={{
-                    width: 'clamp(200px, 28vw, 360px)',
+                    width: 'clamp(220px, 30vw, 400px)',
                     height: 'auto',
                     filter:
-                      'drop-shadow(0 50px 80px rgba(10,17,40,0.22)) drop-shadow(0 0 60px rgba(255,107,0,0.08))',
+                      'drop-shadow(0 60px 100px rgba(10,17,40,0.28)) drop-shadow(0 0 80px rgba(255,107,0,0.12))',
                   }}
                 />
               </motion.div>
