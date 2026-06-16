@@ -1,25 +1,12 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { ShoppingCart, Star, SlidersHorizontal, X, Search, ChevronDown } from 'lucide-react'
 import { ImageWithFallback } from './figma/ImageWithFallback'
+import { supabase, type Product } from '../../lib/supabase'
 
 const ORANGE = '#FF6B00'
 const NAVY = '#0A1128'
 
-const allProducts = [
-  { id: 1, name: 'iPhone 16 Pro Max', brand: 'Apple', storage: '256GB', ram: '8GB', condition: 'Precintado', price: 1149, displayPrice: '1.149€', originalPrice: '1.299€', tag: 'OFERTA BOMBA', discount: '-12%', image: 'https://images.unsplash.com/photo-1652804854453-0f2354bfc350?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.9, reviews: 124 },
-  { id: 2, name: 'iPhone 16 Pro Max', brand: 'Apple', storage: '512GB', ram: '8GB', condition: 'Precintado', price: 1349, displayPrice: '1.349€', originalPrice: null, tag: null, discount: null, image: 'https://images.unsplash.com/photo-1656099707503-0731bdec9565?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.9, reviews: 88 },
-  { id: 3, name: 'iPhone 16 Pro', brand: 'Apple', storage: '128GB', ram: '8GB', condition: 'Precintado', price: 1099, displayPrice: '1.099€', originalPrice: null, tag: 'NUEVO', discount: null, image: 'https://images.unsplash.com/photo-1759588071782-b2091e07d737?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.9, reviews: 52 },
-  { id: 4, name: 'iPhone 15 Pro', brand: 'Apple', storage: '256GB', ram: '8GB', condition: 'Precintado', price: 899, displayPrice: '899€', originalPrice: null, tag: 'MÁS VENDIDO', discount: null, image: 'https://images.unsplash.com/photo-1759588071908-fc10a79714fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.8, reviews: 201 },
-  { id: 5, name: 'iPhone 15', brand: 'Apple', storage: '128GB', ram: '6GB', condition: 'Reacondicionado A+', price: 599, displayPrice: '599€', originalPrice: '749€', tag: 'BOMBA PRECIO', discount: '-20%', image: 'https://images.unsplash.com/photo-1657561758945-c8d9687ee951?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.8, reviews: 167 },
-  { id: 6, name: 'iPhone 14 Pro', brand: 'Apple', storage: '256GB', ram: '6GB', condition: 'Reacondicionado A', price: 649, displayPrice: '649€', originalPrice: '849€', tag: 'OFERTA BOMBA', discount: '-24%', image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.7, reviews: 143 },
-  { id: 7, name: 'iPhone 14', brand: 'Apple', storage: '128GB', ram: '6GB', condition: 'Reacondicionado B', price: 449, displayPrice: '449€', originalPrice: '599€', tag: null, discount: '-25%', image: 'https://images.unsplash.com/photo-1759588071782-b2091e07d737?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.6, reviews: 95 },
-  { id: 8, name: 'iPhone 13', brand: 'Apple', storage: '256GB', ram: '4GB', condition: 'Reacondicionado B', price: 399, displayPrice: '399€', originalPrice: '549€', tag: null, discount: '-27%', image: 'https://images.unsplash.com/photo-1656099707503-0731bdec9565?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.6, reviews: 78 },
-  { id: 9, name: 'iPhone SE 3', brand: 'Apple', storage: '128GB', ram: '4GB', condition: 'Reacondicionado A+', price: 349, displayPrice: '349€', originalPrice: '449€', tag: null, discount: '-22%', image: 'https://images.unsplash.com/photo-1652804854453-0f2354bfc350?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.7, reviews: 56 },
-  { id: 10, name: 'Samsung Galaxy S24 Ultra', brand: 'Samsung', storage: '512GB', ram: '12GB', condition: 'Precintado', price: 979, displayPrice: '979€', originalPrice: null, tag: 'MÁS VENDIDO', discount: null, image: 'https://images.unsplash.com/photo-1709744722656-9b850470293f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.8, reviews: 132 },
-  { id: 11, name: 'Samsung Galaxy S24+', brand: 'Samsung', storage: '256GB', ram: '12GB', condition: 'Precintado', price: 799, displayPrice: '799€', originalPrice: '899€', tag: 'OFERTA', discount: '-11%', image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.7, reviews: 89 },
-  { id: 12, name: 'Samsung Galaxy S23', brand: 'Samsung', storage: '256GB', ram: '8GB', condition: 'Reacondicionado A+', price: 549, displayPrice: '549€', originalPrice: '699€', tag: 'OFERTA BOMBA', discount: '-21%', image: 'https://images.unsplash.com/photo-1709744722656-9b850470293f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&q=80', rating: 4.7, reviews: 74 },
-]
 
 const tagColors: Record<string, string> = {
   'OFERTA BOMBA': ORANGE,
@@ -106,6 +93,8 @@ function CheckItem({
 }
 
 export default function CatalogoPage() {
+  const [allProducts, setAllProducts] = useState<Product[]>([])
+  const [dbLoading, setDbLoading] = useState(true)
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [selectedStorages, setSelectedStorages] = useState<string[]>([])
   const [selectedConditions, setSelectedConditions] = useState<string[]>([])
@@ -113,6 +102,18 @@ export default function CatalogoPage() {
   const [sortBy, setSortBy] = useState('featured')
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  useEffect(() => {
+    supabase.from('products').select('*').order('created_at', { ascending: false }).then(({ data }) => {
+      setAllProducts(data || [])
+      setDbLoading(false)
+    })
+  }, [])
+
+  const brands = useMemo(() => [...new Set(allProducts.map(p => p.brand))], [allProducts])
+  const storages = useMemo(() => [...new Set(allProducts.map(p => p.storage))].sort(), [allProducts])
+  const conditions = ['Precintado', 'Reacondicionado A+', 'Reacondicionado A', 'Reacondicionado B']
+  const rams = useMemo(() => [...new Set(allProducts.map(p => p.ram))].sort(), [allProducts])
 
   const toggleItem = (list: string[], setList: (v: string[]) => void, item: string) => {
     setList(list.includes(item) ? list.filter((x) => x !== item) : [...list, item])
@@ -134,7 +135,7 @@ export default function CatalogoPage() {
     if (sortBy === 'price-desc') result = [...result].sort((a, b) => b.price - a.price)
     if (sortBy === 'rating') result = [...result].sort((a, b) => b.rating - a.rating)
     return result
-  }, [selectedBrands, selectedStorages, selectedConditions, selectedRAMs, searchQuery, sortBy])
+  }, [allProducts, selectedBrands, selectedStorages, selectedConditions, selectedRAMs, searchQuery, sortBy])
 
   const FiltersPanel = (
     <div>
@@ -214,8 +215,8 @@ export default function CatalogoPage() {
             Todos los dispositivos.<br />
             <span style={{ color: ORANGE }}>Mejor precio</span> garantizado.
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '1rem' }}>
-            {allProducts.length} dispositivos disponibles · Envío en 24h · Garantía 3 años
+        <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '1rem' }}>
+            {dbLoading ? 'Cargando...' : `${allProducts.length} dispositivos disponibles`} · Envío en 24h · Garantía 3 años
           </p>
         </div>
       </div>
@@ -353,7 +354,12 @@ export default function CatalogoPage() {
 
           {/* Products grid */}
           <div className="flex-1 min-w-0">
-            {filteredProducts.length === 0 ? (
+            {dbLoading ? (
+              <div className="text-center py-20">
+                <div className="w-12 h-12 rounded-full border-4 mx-auto animate-spin" style={{ borderColor: `${ORANGE} transparent transparent transparent` }} />
+                <p style={{ marginTop: 16, color: 'rgba(10,17,40,0.4)' }}>Cargando productos...</p>
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div className="text-center py-20">
                 <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: 'rgba(10,17,40,0.06)' }}>
                   <Search size={28} style={{ color: 'rgba(10,17,40,0.3)' }} />
@@ -364,13 +370,11 @@ export default function CatalogoPage() {
                 </p>
               </div>
             ) : (
-              <motion.div
-                layout
-                className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"
-              >
+              <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 <AnimatePresence mode="popLayout">
                   {filteredProducts.map((product) => {
                     const tagBg = product.tag ? (tagColors[product.tag] ?? NAVY) : null
+                    const outOfStock = product.stock === 0
                     return (
                       <motion.div
                         key={product.id}
@@ -379,17 +383,30 @@ export default function CatalogoPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.94 }}
                         transition={{ duration: 0.25 }}
-                        whileHover={{ y: -5, boxShadow: '0 16px 50px rgba(10,17,40,0.12)' }}
-                        className="group relative rounded-3xl overflow-hidden cursor-pointer"
-                        style={{ background: 'white', border: '1px solid rgba(10,17,40,0.07)', boxShadow: '0 2px 16px rgba(10,17,40,0.05)' }}
+                        whileHover={outOfStock ? {} : { y: -5, boxShadow: '0 16px 50px rgba(10,17,40,0.12)' }}
+                        className="group relative rounded-3xl overflow-hidden"
+                        style={{
+                          background: 'white',
+                          border: '1px solid rgba(10,17,40,0.07)',
+                          boxShadow: '0 2px 16px rgba(10,17,40,0.05)',
+                          opacity: outOfStock ? 0.6 : 1,
+                          cursor: outOfStock ? 'not-allowed' : 'pointer',
+                        }}
                       >
                         {/* Image */}
                         <div className="relative overflow-hidden" style={{ height: 220, background: '#F8F9FA' }}>
                           <ImageWithFallback
-                            src={product.image}
+                            src={product.image_url}
                             alt={product.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-contain p-4 transition-transform duration-500" style={outOfStock ? {} : {}}
                           />
+
+                          {/* Out of stock overlay */}
+                          {outOfStock && (
+                            <div className="absolute inset-0 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(2px)' }}>
+                              <span className="px-4 py-2 rounded-full font-bold" style={{ background: 'rgba(10,17,40,0.15)', color: NAVY, fontSize: '0.8rem', letterSpacing: '0.05em' }}>SIN STOCK</span>
+                            </div>
+                          )}
 
                           {/* Condition */}
                           <div className="absolute top-3 right-3">
@@ -453,7 +470,6 @@ export default function CatalogoPage() {
                             {product.storage} · {product.ram} RAM
                           </p>
 
-                          {/* Rating */}
                           <div className="flex items-center gap-1.5 mb-4">
                             <Star size={12} fill={ORANGE} style={{ color: ORANGE }} />
                             <span style={{ fontSize: '0.78rem', fontWeight: 600, color: NAVY }}>{product.rating}</span>
@@ -462,16 +478,17 @@ export default function CatalogoPage() {
 
                           <div className="flex items-center justify-between">
                             <div>
-                              <span style={{ fontSize: '1.2rem', fontWeight: 900, color: NAVY }}>{product.displayPrice}</span>
-                              {product.originalPrice && (
+                              <span style={{ fontSize: '1.2rem', fontWeight: 900, color: NAVY }}>{product.price}€</span>
+                              {product.original_price && (
                                 <span className="ml-2" style={{ fontSize: '0.82rem', color: 'rgba(10,17,40,0.35)', textDecoration: 'line-through' }}>
-                                  {product.originalPrice}
+                                  {product.original_price}€
                                 </span>
                               )}
                             </div>
                             <button
-                              className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
-                              style={{ background: ORANGE }}
+                              disabled={outOfStock}
+                              className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
+                              style={{ background: outOfStock ? 'rgba(10,17,40,0.15)' : ORANGE }}
                             >
                               <ShoppingCart size={16} className="text-white" />
                             </button>

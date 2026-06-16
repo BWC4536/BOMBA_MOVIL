@@ -42,11 +42,29 @@ function RepairWizard() {
   const [selectedRepair, setSelectedRepair] = useState<typeof repairTypes[0] | null>(null)
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', notes: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const stepTitles = ['Marca', 'Modelo', 'Reparación', 'Confirmar']
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setSubmitting(true)
+    try {
+      const { supabase } = await import('../../lib/supabase')
+      await supabase.from('form_submissions').insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        brand: selectedBrand?.name || null,
+        model: selectedModel || null,
+        repair_type: selectedRepair?.name || null,
+        notes: formData.notes || null,
+        status: 'nuevo',
+      })
+    } catch (err) {
+      console.error('Error saving submission:', err)
+    }
+    setSubmitting(false)
     setSubmitted(true)
   }
 
@@ -246,7 +264,7 @@ function RepairWizard() {
                   style={{ background: ORANGE, fontSize: '0.95rem' }}
                 >
                   <Calendar size={18} />
-                  Confirmar Cita Gratis
+                  {submitting ? 'Enviando...' : 'Confirmar Cita Gratis'}
                 </button>
               </form>
             </motion.div>
