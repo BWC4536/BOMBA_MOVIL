@@ -15,64 +15,64 @@ const featuredProducts = [
     id: 1, name: 'iPhone 16 Pro Max', storage: '256GB', ram: '8GB',
     condition: 'Precintado', price: '1.149€', originalPrice: '1.299€',
     tag: 'OFERTA BOMBA', brand: 'Apple', discount: '-12%',
-    image: 'https://images.unsplash.com/photo-1652804854453-0f2354bfc350?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=480&q=80',
+    image: '/images/iphone16promax.png',
   },
   {
     id: 2, name: 'iPhone 15 Pro', storage: '512GB', ram: '8GB',
     condition: 'Precintado', price: '899€', originalPrice: null,
     tag: 'NUEVO', brand: 'Apple', discount: null,
-    image: 'https://images.unsplash.com/photo-1656099707503-0731bdec9565?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=480&q=80',
+    image: '/images/iphone15pro.png',
   },
   {
     id: 3, name: 'iPhone 15', storage: '128GB', ram: '6GB',
     condition: 'Reacondicionado A+', price: '599€', originalPrice: '749€',
     tag: 'BOMBA PRECIO', brand: 'Apple', discount: '-20%',
-    image: 'https://images.unsplash.com/photo-1657561758945-c8d9687ee951?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=480&q=80',
+    image: '/images/iphone15.png',
   },
   {
     id: 4, name: 'Samsung S24 Ultra', storage: '512GB', ram: '12GB',
     condition: 'Precintado', price: '979€', originalPrice: null,
     tag: 'MÁS VENDIDO', brand: 'Samsung', discount: null,
-    image: 'https://images.unsplash.com/photo-1709744722656-9b850470293f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=480&q=80',
+    image: '/images/samsung_s24_ultra.png',
   },
   {
     id: 5, name: 'iPhone 14 Pro', storage: '256GB', ram: '6GB',
     condition: 'Reacondicionado A', price: '649€', originalPrice: '849€',
     tag: 'OFERTA BOMBA', brand: 'Apple', discount: '-24%',
-    image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=480&q=80',
+    image: '/images/iphone14pro.png',
   },
   {
     id: 6, name: 'iPhone SE 3', storage: '128GB', ram: '4GB',
     condition: 'Reacondicionado A+', price: '349€', originalPrice: '449€',
     tag: null, brand: 'Apple', discount: '-22%',
-    image: 'https://images.unsplash.com/photo-1759588071782-b2091e07d737?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=480&q=80',
+    image: '/images/iphone_se3.png',
   },
 ]
 
 const reviews = [
   {
     id: 1, author: 'María G.', initials: 'MG',
-    text: 'Increíble servicio. Mi iPhone llegó en perfectas condiciones y en menos de 24 horas. Sin duda la mejor tienda de Sevilla.',
+    text: 'Me fui con el iPhone en la mano el mismo día. Lo tenían en stock, me lo configuraron allí y salí contentísima. No me esperaba tanto.',
     rating: 5, product: 'iPhone 15 Pro', date: 'Hace 2 días',
   },
   {
     id: 2, author: 'Carlos M.', initials: 'CM',
-    text: 'Reparación de pantalla rapidísima. En menos de 2 horas tenía el móvil como nuevo. Precio muy justo.',
+    text: 'Llevé el móvil con la pantalla rota por la mañana y lo tenía listo antes de comer. Y sin cita previa. Flipé.',
     rating: 5, product: 'Reparación Pantalla', date: 'Hace 1 semana',
   },
   {
     id: 3, author: 'Ana P.', initials: 'AP',
-    text: 'Vendí mi iPhone 12 y la tasación fue justa, pago inmediato. Totalmente recomendado.',
+    text: 'Pensé que me iban a dar cuatro duros por el iPhone 12, pero la tasación fue muy decente. El pago fue al momento, sin rollos.',
     rating: 5, product: 'Trade-in', date: 'Hace 3 días',
   },
   {
     id: 4, author: 'Roberto L.', initials: 'RL',
-    text: 'Los chicos son expertos. Me asesoraron perfectamente para elegir el modelo que necesitaba.',
+    text: 'No tenía claro qué modelo coger y me explicaron las diferencias sin intentar venderme el más caro. Eso se agradece mucho.',
     rating: 5, product: 'iPhone 16 Pro', date: 'Hace 5 días',
   },
   {
     id: 5, author: 'Laura F.', initials: 'LF',
-    text: 'La garantía de 3 años realmente la cumplen. Tuve una incidencia y la resolvieron al momento.',
+    text: 'Al mes se me estropeó la batería y me la cambiaron sin preguntas, cubierta por garantía. Cero problemas, como prometieron.',
     rating: 5, product: 'Garantía', date: 'Hace 1 semana',
   },
 ]
@@ -104,7 +104,7 @@ function StarRow({ count = 5 }: { count?: number }) {
   )
 }
 
-function ProductCard({ product, large = false }: { product: typeof featuredProducts[0]; large?: boolean }) {
+function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
   const tagBg = product.tag ? (tagColor[product.tag] ?? NAVY) : null
 
   return (
@@ -115,15 +115,15 @@ function ProductCard({ product, large = false }: { product: typeof featuredProdu
       className="group relative rounded-3xl overflow-hidden cursor-pointer"
       style={{ background: 'white', border: '1px solid rgba(10,17,40,0.06)', boxShadow: '0 4px 24px rgba(10,17,40,0.06)' }}
     >
-      {/* Image area */}
+      {/* Image area — uniform height for all cards */}
       <div
         className="relative overflow-hidden"
-        style={{ height: large ? 320 : 220, background: '#F8F9FA' }}
+        style={{ height: 220, background: '#F8F9FA' }}
       >
         <ImageWithFallback
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 p-4"
         />
 
         {/* Condition badge */}
@@ -181,7 +181,7 @@ function ProductCard({ product, large = false }: { product: typeof featuredProdu
         <p style={{ fontSize: '0.72rem', color: 'rgba(10,17,40,0.4)', fontWeight: 600, marginBottom: '0.3rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
           {product.brand}
         </p>
-        <h3 style={{ fontWeight: 800, color: NAVY, lineHeight: 1.2, fontSize: large ? '1.1rem' : '0.95rem', marginBottom: '0.3rem' }}>
+        <h3 style={{ fontWeight: 800, color: NAVY, lineHeight: 1.2, fontSize: '0.95rem', marginBottom: '0.3rem' }}>
           {product.name}
         </h3>
         <p style={{ fontSize: '0.8rem', color: 'rgba(10,17,40,0.5)', marginBottom: '1rem' }}>
@@ -190,7 +190,7 @@ function ProductCard({ product, large = false }: { product: typeof featuredProdu
 
         <div className="flex items-center justify-between">
           <div>
-            <span style={{ fontSize: large ? '1.4rem' : '1.2rem', fontWeight: 900, color: NAVY }}>
+            <span style={{ fontSize: '1.2rem', fontWeight: 900, color: NAVY }}>
               {product.price}
             </span>
             {product.originalPrice && (
@@ -301,7 +301,7 @@ export default function HomePage() {
                 marginBottom: '2.5rem',
               }}
             >
-              iPhones nuevos y reacondicionados, Androids premium y reparaciones exprés. Tu tienda de confianza en Sevilla.
+              iPhones, Androids y reparaciones en el día. Llevamos años ayudando a la gente de Sevilla a encontrar el móvil que necesita, sin líos ni letra pequeña.
             </motion.p>
 
             {/* CTAs */}
@@ -490,8 +490,8 @@ export default function HomePage() {
                 DESTACADOS
               </span>
               <h2 style={{ fontWeight: 900, fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', color: NAVY, letterSpacing: '-0.04em', lineHeight: 1.1 }}>
-                Los más<br />
-                <span style={{ color: ORANGE }}>explosivos</span> del momento
+                Lo que más<br />
+                <span style={{ color: ORANGE }}>se lleva</span> ahora
               </h2>
             </div>
             <Link
@@ -504,7 +504,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* Asymmetric product grid */}
+          {/* Uniform product grid — all cards equal */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -512,11 +512,7 @@ export default function HomePage() {
             variants={containerVariants}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
           >
-            {/* Big featured card */}
-            <div className="sm:col-span-2 lg:col-span-1 lg:row-span-2">
-              <ProductCard product={featuredProducts[0]} large />
-            </div>
-            {featuredProducts.slice(1).map((p) => (
+            {featuredProducts.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </motion.div>
@@ -566,7 +562,7 @@ export default function HomePage() {
                 cogiendo polvo?
               </h2>
               <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1.05rem', lineHeight: 1.75, marginBottom: '2.5rem', maxWidth: 480 }}>
-                Tásalo ahora y recibe hasta el 80% de su valor en 60 segundos. Sin esperas, sin complicaciones. Pago inmediato o descuento en tu nuevo dispositivo.
+                Tráelo a la tienda o mándanos una foto y te decimos cuánto vale en cuestión de minutos. Sin compromiso. Si te gusta el precio, pago al momento o lo descontamos directamente del que te lleves.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
@@ -630,7 +626,7 @@ export default function HomePage() {
                 OPINIONES REALES
               </span>
               <h2 style={{ fontWeight: 900, fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', color: NAVY, letterSpacing: '-0.04em', lineHeight: 1.1 }}>
-                Lo que dicen<br />nuestros clientes
+                Lo que nos cuentan<br />quienes ya confían en nosotros
               </h2>
             </div>
           </div>
@@ -798,11 +794,11 @@ export default function HomePage() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <h2 style={{ fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 3.5rem)', color: NAVY, letterSpacing: '-0.045em', lineHeight: 1.1, marginBottom: '1.25rem' }}>
-              ¿Listo para tu<br />
-              <span style={{ color: ORANGE }}>próximo móvil?</span>
+              ¿Te ayudamos a encontrar<br />
+              <span style={{ color: ORANGE }}>el tuyo?</span>
             </h2>
             <p style={{ color: 'rgba(10,17,40,0.55)', fontSize: '1.05rem', lineHeight: 1.75, marginBottom: '2.5rem' }}>
-              Visítanos en nuestra tienda de Sevilla o compra online. Envío en 24h a toda España.
+              Pásate por la tienda en Sevilla y te asesoramos sin prisa. Si lo prefieres, compra desde casa y lo tienes en 24 horas.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
