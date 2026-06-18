@@ -450,7 +450,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-0">
             {[
               { icon: Shield, title: '3 Años de Garantía', sub: 'En todos los productos' },
-              { icon: MapPin, title: 'Tienda en Sevilla', sub: 'Av. Primero de Mayo, 52' },
+              { icon: MapPin, title: 'Tienda en Coria del Río', sub: 'Ven a visitarnos' },
               { icon: Truck, title: 'Envíos en 24 h', sub: 'Gratis a partir de 50€' },
             ].map(({ icon: Icon, title, sub }, i) => (
               <div

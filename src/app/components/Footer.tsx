@@ -124,7 +124,7 @@ export default function Footer() {
                 style={{ color: 'rgba(255,255,255,0.65)' }}
               >
                 <MapPin size={16} className="shrink-0 mt-0.5" style={{ color: '#FF6B00' }} />
-                Av. Primero de Mayo, 52, Sevilla
+                Coria del Río, Sevilla
               </a>
               <a
                 href="tel:954000000"

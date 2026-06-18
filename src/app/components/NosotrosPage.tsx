@@ -285,7 +285,7 @@ export default function NosotrosPage() {
 
               <div className="flex flex-col gap-4 mb-8">
                 {[
-                  { icon: MapPin, text: 'Av. Primero de Mayo, 52, 41010 Sevilla', label: 'Dirección' },
+                  { icon: MapPin, text: 'Coria del Río, Sevilla', label: 'Dirección' },
                   { icon: Clock, text: 'Lun – Sáb: 10:00 – 20:00 h · Dom: Cerrado', label: 'Horario' },
                   { icon: Phone, text: '954 000 000', label: 'Teléfono' },
                 ].map(({ icon: Icon, text, label }) => (
@@ -337,7 +337,7 @@ export default function NosotrosPage() {
               >
                 <iframe
                   title="BombaMóvil en Google Maps"
-                  src="https://maps.google.com/maps?q=Av.+Primero+de+Mayo,+52,+41010+Sevilla,+España&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                  src="https://maps.google.com/maps?q=Bomba+Movil,+Coria+del+Rio,+Sevilla&t=&z=16&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0, display: 'block' }}
