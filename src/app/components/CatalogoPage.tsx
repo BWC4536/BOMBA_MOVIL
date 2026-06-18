@@ -384,7 +384,7 @@ export default function CatalogoPage() {
                 </p>
               </div>
             ) : (
-              <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+              <motion.div layout className="grid grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-4">
                 <AnimatePresence mode="popLayout">
                   {filteredProducts.map((product) => {
                     const tagBg = product.tag ? (tagColors[product.tag] ?? NAVY) : null
@@ -408,7 +408,7 @@ export default function CatalogoPage() {
                         }}
                       >
                         {/* Image */}
-                        <div className="relative overflow-hidden" style={{ height: 220, background: '#F8F9FA' }}>
+                        <div className="relative overflow-hidden" style={{ height: 'clamp(130px, 22vw, 220px)', background: '#F8F9FA' }}>
                           <ImageWithFallback
                             src={product.image_url}
                             alt={product.name}
@@ -423,17 +423,17 @@ export default function CatalogoPage() {
                           )}
 
                           {/* Condition */}
-                          <div className="absolute top-3 right-3">
+                          <div className="absolute top-2 right-2">
                             <span
-                              className="px-2.5 py-1 rounded-full text-white"
+                              className="px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-white"
                               style={{
-                                fontSize: '0.65rem',
+                                fontSize: '0.58rem',
                                 fontWeight: 700,
                                 background: product.condition === 'Precintado' ? NAVY : '#10b981',
-                                letterSpacing: '0.04em',
+                                letterSpacing: '0.03em',
                               }}
                             >
-                              {product.condition}
+                              {product.condition === 'Precintado' ? 'Nuevo' : 'Reac.'}
                             </span>
                           </div>
 
@@ -473,38 +473,38 @@ export default function CatalogoPage() {
                         </div>
 
                         {/* Card body */}
-                        <div className="p-5">
-                          <p style={{ fontSize: '0.68rem', color: 'rgba(10,17,40,0.4)', fontWeight: 600, marginBottom: '0.25rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        <div className="p-3 sm:p-5">
+                          <p style={{ fontSize: '0.62rem', color: 'rgba(10,17,40,0.4)', fontWeight: 600, marginBottom: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                             {product.brand}
                           </p>
-                          <h3 style={{ fontWeight: 800, color: NAVY, lineHeight: 1.2, fontSize: '0.95rem', marginBottom: '0.25rem' }}>
+                          <h3 style={{ fontWeight: 800, color: NAVY, lineHeight: 1.2, fontSize: 'clamp(0.75rem, 2.5vw, 0.95rem)', marginBottom: '0.15rem' }}>
                             {product.name}
                           </h3>
-                          <p style={{ fontSize: '0.78rem', color: 'rgba(10,17,40,0.45)', marginBottom: '0.6rem' }}>
-                            {product.storage} · {product.ram} RAM
+                          <p style={{ fontSize: '0.7rem', color: 'rgba(10,17,40,0.45)', marginBottom: '0.5rem' }}>
+                            {product.storage} · {product.ram}
                           </p>
 
-                          <div className="flex items-center gap-1.5 mb-4">
-                            <Star size={12} fill={ORANGE} style={{ color: ORANGE }} />
-                            <span style={{ fontSize: '0.78rem', fontWeight: 600, color: NAVY }}>{product.rating}</span>
-                            <span style={{ fontSize: '0.72rem', color: 'rgba(10,17,40,0.4)' }}>({product.reviews})</span>
+                          <div className="hidden sm:flex items-center gap-1.5 mb-3">
+                            <Star size={11} fill={ORANGE} style={{ color: ORANGE }} />
+                            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: NAVY }}>{product.rating}</span>
+                            <span style={{ fontSize: '0.68rem', color: 'rgba(10,17,40,0.4)' }}>({product.reviews})</span>
                           </div>
 
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between gap-1">
                             <div>
-                              <span style={{ fontSize: '1.2rem', fontWeight: 900, color: NAVY }}>{product.price}€</span>
+                              <span style={{ fontSize: 'clamp(0.9rem, 3vw, 1.2rem)', fontWeight: 900, color: NAVY }}>{product.price}€</span>
                               {product.original_price && (
-                                <span className="ml-2" style={{ fontSize: '0.82rem', color: 'rgba(10,17,40,0.35)', textDecoration: 'line-through' }}>
+                                <span className="ml-1 hidden sm:inline" style={{ fontSize: '0.78rem', color: 'rgba(10,17,40,0.35)', textDecoration: 'line-through' }}>
                                   {product.original_price}€
                                 </span>
                               )}
                             </div>
                             <button
                               disabled={outOfStock}
-                              className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
+                              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-200 shrink-0"
                               style={{ background: outOfStock ? 'rgba(10,17,40,0.15)' : ORANGE }}
                             >
-                              <ShoppingCart size={16} className="text-white" />
+                              <ShoppingCart size={14} className="text-white" />
                             </button>
                           </div>
                         </div>

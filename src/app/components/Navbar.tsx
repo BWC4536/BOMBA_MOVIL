@@ -53,12 +53,7 @@ export default function Navbar() {
       }}
     >
       {/* ── Top social bar ── */}
-      <div
-        style={{
-          background: '#0A1128',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-        }}
-      >
+      <div className="hidden sm:block" style={{ background: '#0A1128', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="max-w-7xl mx-auto px-6 h-9 flex items-center justify-end gap-2">
           {/* WhatsApp */}
           <a

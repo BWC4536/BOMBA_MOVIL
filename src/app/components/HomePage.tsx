@@ -118,7 +118,7 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
       {/* Image area — uniform height for all cards */}
       <div
         className="relative overflow-hidden"
-        style={{ height: 220, background: '#F8F9FA' }}
+        style={{ height: 'clamp(140px, 22vw, 220px)', background: '#F8F9FA' }}
       >
         <ImageWithFallback
           src={product.image}
@@ -177,36 +177,36 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
       </div>
 
       {/* Card body */}
-      <div className="p-5">
-        <p style={{ fontSize: '0.72rem', color: 'rgba(10,17,40,0.4)', fontWeight: 600, marginBottom: '0.3rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+      <div className="p-3 sm:p-5">
+        <p style={{ fontSize: '0.65rem', color: 'rgba(10,17,40,0.4)', fontWeight: 600, marginBottom: '0.2rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
           {product.brand}
         </p>
-        <h3 style={{ fontWeight: 800, color: NAVY, lineHeight: 1.2, fontSize: '0.95rem', marginBottom: '0.3rem' }}>
+        <h3 style={{ fontWeight: 800, color: NAVY, lineHeight: 1.2, fontSize: 'clamp(0.78rem, 2.5vw, 0.95rem)', marginBottom: '0.2rem' }}>
           {product.name}
         </h3>
-        <p style={{ fontSize: '0.8rem', color: 'rgba(10,17,40,0.5)', marginBottom: '1rem' }}>
-          {product.storage} · {product.ram} RAM
+        <p style={{ fontSize: '0.72rem', color: 'rgba(10,17,40,0.5)', marginBottom: '0.75rem' }}>
+          {product.storage} · {product.ram}
         </p>
 
-        <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-1">
           <div>
-            <span style={{ fontSize: '1.2rem', fontWeight: 900, color: NAVY }}>
+            <span style={{ fontSize: 'clamp(1rem, 3.5vw, 1.2rem)', fontWeight: 900, color: NAVY }}>
               {product.price}
             </span>
             {product.originalPrice && (
               <span
-                className="ml-2"
-                style={{ fontSize: '0.85rem', color: 'rgba(10,17,40,0.35)', textDecoration: 'line-through' }}
+                className="ml-1 hidden sm:inline"
+                style={{ fontSize: '0.8rem', color: 'rgba(10,17,40,0.35)', textDecoration: 'line-through' }}
               >
                 {product.originalPrice}
               </span>
             )}
           </div>
           <button
-            className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110 shrink-0"
             style={{ background: ORANGE }}
           >
-            <ShoppingCart size={16} className="text-white" />
+            <ShoppingCart size={14} className="text-white" />
           </button>
         </div>
       </div>
@@ -250,7 +250,7 @@ export default function HomePage() {
           />
         </motion.div>
 
-        <div className="max-w-7xl mx-auto px-6 w-full py-20 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] items-center gap-12 lg:gap-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full py-12 sm:py-20 grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] items-center gap-6 lg:gap-0">
           {/* Left — text */}
           <motion.div
             initial="hidden"
@@ -275,7 +275,7 @@ export default function HomePage() {
             <motion.h1
               variants={itemUp}
               style={{
-                fontSize: 'clamp(2.8rem, 5.5vw, 5rem)',
+                fontSize: 'clamp(2.2rem, 6vw, 5rem)',
                 fontWeight: 900,
                 color: NAVY,
                 lineHeight: 1.0,
@@ -305,19 +305,19 @@ export default function HomePage() {
             </motion.p>
 
             {/* CTAs */}
-            <motion.div variants={itemUp} className="flex flex-wrap gap-4 mb-10">
+            <motion.div variants={itemUp} className="flex flex-wrap gap-3 mb-8">
               <Link
                 to="/catalogo"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white transition-all hover:opacity-90 hover:scale-[1.03] active:scale-95"
-                style={{ background: ORANGE, fontSize: '1rem' }}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-bold text-white transition-all hover:opacity-90 active:scale-95"
+                style={{ background: ORANGE, fontSize: '0.95rem' }}
               >
                 Comprar Ahora
-                <ArrowRight size={18} />
+                <ArrowRight size={16} />
               </Link>
               <Link
                 to="/reparaciones"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold transition-all hover:bg-gray-50 active:scale-95"
-                style={{ color: NAVY, border: `2px solid ${NAVY}`, fontSize: '1rem' }}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold transition-all hover:bg-gray-50 active:scale-95"
+                style={{ color: NAVY, border: `2px solid ${NAVY}`, fontSize: '0.95rem' }}
               >
                 Ver Servicios
               </Link>
@@ -348,7 +348,7 @@ export default function HomePage() {
           </motion.div>
 
           {/* Right — floating phone */}
-          <div className="relative flex items-center justify-center h-[500px] lg:h-[680px]">
+          <div className="relative flex items-center justify-center h-[320px] sm:h-[420px] lg:h-[680px]">
             {/* Background blob */}
             <div
               className="absolute rounded-full pointer-events-none"
@@ -374,7 +374,7 @@ export default function HomePage() {
                   alt="iPhone 17 Pro Max - BombaMóvil"
                   className="object-contain"
                   style={{
-                    width: 'clamp(220px, 30vw, 400px)',
+                    width: 'clamp(160px, 28vw, 400px)',
                     height: 'auto',
                     filter:
                       'drop-shadow(0 60px 100px rgba(10,17,40,0.28)) drop-shadow(0 0 80px rgba(255,107,0,0.12))',
@@ -383,45 +383,45 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Floating badge — top left */}
+            {/* Floating badge — top left (hidden on xs) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.6, x: -20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ delay: 1.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-1/4 left-0 lg:-left-8 rounded-2xl p-3.5"
+              className="absolute top-1/4 left-0 lg:-left-8 rounded-2xl p-3 hidden sm:block"
               style={{ background: 'white', boxShadow: '0 8px 32px rgba(10,17,40,0.14)', border: '1px solid rgba(10,17,40,0.06)' }}
             >
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: ORANGE }}>
-                  <Zap size={16} fill="white" className="text-white" />
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: ORANGE }}>
+                  <Zap size={14} fill="white" className="text-white" />
                 </div>
                 <div>
-                  <p style={{ fontSize: '0.62rem', color: 'rgba(10,17,40,0.45)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  <p style={{ fontSize: '0.58rem', color: 'rgba(10,17,40,0.45)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                     PRECINTADO
                   </p>
-                  <p style={{ fontSize: '0.85rem', fontWeight: 800, color: NAVY, marginTop: 2 }}>iPhone 16 Pro</p>
+                  <p style={{ fontSize: '0.8rem', fontWeight: 800, color: NAVY, marginTop: 2 }}>iPhone 16 Pro</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Floating badge — bottom right */}
+            {/* Floating badge — bottom right (hidden on xs) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.6, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ delay: 1.4, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-1/4 right-0 lg:-right-8 rounded-2xl p-3.5"
+              className="absolute bottom-1/4 right-0 lg:-right-8 rounded-2xl p-3 hidden sm:block"
               style={{ background: 'white', boxShadow: '0 8px 32px rgba(10,17,40,0.14)', border: '1px solid rgba(10,17,40,0.06)' }}
             >
               <div>
-                <p style={{ fontSize: '0.62rem', color: 'rgba(10,17,40,0.45)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <p style={{ fontSize: '0.6rem', color: 'rgba(10,17,40,0.45)', lineHeight: 1, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   DESDE
                 </p>
-                <p style={{ fontSize: '1.5rem', fontWeight: 900, color: ORANGE, lineHeight: 1.1, letterSpacing: '-0.04em', marginTop: 4 }}>
+                <p style={{ fontSize: '1.3rem', fontWeight: 900, color: ORANGE, lineHeight: 1.1, letterSpacing: '-0.04em', marginTop: 3 }}>
                   349€
                 </p>
                 <div className="flex items-center gap-1 mt-1">
-                  <Truck size={12} style={{ color: 'rgba(10,17,40,0.4)' }} />
-                  <p style={{ fontSize: '0.7rem', color: 'rgba(10,17,40,0.45)' }}>Envío en 24h</p>
+                  <Truck size={11} style={{ color: 'rgba(10,17,40,0.4)' }} />
+                  <p style={{ fontSize: '0.65rem', color: 'rgba(10,17,40,0.45)', whiteSpace: 'nowrap' }}>Envío en 24h</p>
                 </div>
               </div>
             </motion.div>
@@ -431,14 +431,14 @@ export default function HomePage() {
               initial={{ opacity: 0, scale: 0.6 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.7, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-12 right-4 lg:right-0 rounded-2xl px-3 py-2"
+              className="absolute top-4 right-2 sm:top-12 sm:right-4 lg:right-0 rounded-xl sm:rounded-2xl px-2.5 py-1.5 sm:px-3 sm:py-2"
               style={{ background: NAVY }}
             >
-              <div className="flex items-center gap-1.5">
-                <Star size={12} fill={ORANGE} style={{ color: ORANGE }} />
-                <p style={{ fontSize: '0.78rem', fontWeight: 800, color: 'white' }}>4.9 / 5</p>
+              <div className="flex items-center gap-1">
+                <Star size={11} fill={ORANGE} style={{ color: ORANGE }} />
+                <p style={{ fontSize: '0.72rem', fontWeight: 800, color: 'white' }}>4.9 / 5</p>
               </div>
-              <p style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>Google Reviews</p>
+              <p style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.5)', marginTop: 1 }}>Google Reviews</p>
             </motion.div>
           </div>
         </div>
@@ -446,30 +446,30 @@ export default function HomePage() {
 
       {/* ── TRUST BAR ─────────────────────────────────── */}
       <section style={{ background: NAVY }}>
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="grid grid-cols-1 md:grid-cols-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0">
             {[
-              { icon: Shield, title: '3 Años de Garantía Oficial', sub: 'En todos nuestros productos' },
-              { icon: MapPin, title: 'Tienda Física en Sevilla', sub: 'Av. Primero de Mayo, 52' },
-              { icon: Truck, title: 'Envíos en 24 Horas', sub: 'Gratis a partir de 50€' },
+              { icon: Shield, title: '3 Años de Garantía', sub: 'En todos los productos' },
+              { icon: MapPin, title: 'Tienda en Sevilla', sub: 'Av. Primero de Mayo, 52' },
+              { icon: Truck, title: 'Envíos en 24 h', sub: 'Gratis a partir de 50€' },
             ].map(({ icon: Icon, title, sub }, i) => (
               <div
                 key={i}
-                className="flex items-center gap-4 py-5 md:py-0 md:px-10"
+                className="flex items-center gap-3 py-4 px-4 sm:py-5 sm:px-8"
                 style={{
-                  borderRight: i < 2 ? '1px solid rgba(255,255,255,0.08)' : undefined,
-                  borderTop: i > 0 ? '1px solid rgba(255,255,255,0.08)' : undefined,
+                  borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.07)' : undefined,
+                  borderRight: undefined,
                 }}
               >
                 <div
-                  className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0"
+                  className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0"
                   style={{ background: 'rgba(255,107,0,0.15)' }}
                 >
-                  <Icon size={22} style={{ color: ORANGE }} />
+                  <Icon size={20} style={{ color: ORANGE }} />
                 </div>
                 <div>
-                  <p style={{ fontWeight: 700, fontSize: '0.95rem', color: 'white' }}>{title}</p>
-                  <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{sub}</p>
+                  <p style={{ fontWeight: 700, fontSize: '0.9rem', color: 'white' }}>{title}</p>
+                  <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginTop: 1 }}>{sub}</p>
                 </div>
               </div>
             ))}
@@ -479,7 +479,7 @@ export default function HomePage() {
 
       {/* ── FEATURED PRODUCTS ─────────────────────────── */}
       <section className="py-24" style={{ background: '#F8F9FA' }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Section header — editorial asymmetric */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div>
@@ -510,7 +510,7 @@ export default function HomePage() {
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
             variants={containerVariants}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+            className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5"
           >
             {featuredProducts.map((p) => (
               <ProductCard key={p.id} product={p} />
