@@ -437,27 +437,6 @@ export default function CatalogoPage() {
                             </span>
                           </div>
 
-                          {/* Tag ribbon */}
-                          {tagBg && product.tag && (
-                            <div className="absolute top-3 left-0">
-                              <div
-                                className="text-white"
-                                style={{
-                                  background: tagBg,
-                                  fontSize: '0.62rem',
-                                  fontWeight: 800,
-                                  letterSpacing: '0.08em',
-                                  paddingLeft: '12px',
-                                  paddingRight: '20px',
-                                  paddingTop: '5px',
-                                  paddingBottom: '5px',
-                                  clipPath: 'polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%)',
-                                }}
-                              >
-                                {product.tag}
-                              </div>
-                            </div>
-                          )}
 
                           {/* Discount */}
                           {product.discount && (
@@ -474,6 +453,22 @@ export default function CatalogoPage() {
 
                         {/* Card body */}
                         <div className="p-3 sm:p-5">
+                          {tagBg && product.tag && (
+                            <div className="mb-2">
+                              <span
+                                className="inline-block px-2 py-1 rounded-md text-white"
+                                style={{
+                                  background: tagBg,
+                                  fontSize: '0.58rem',
+                                  fontWeight: 800,
+                                  letterSpacing: '0.06em',
+                                  textTransform: 'uppercase'
+                                }}
+                              >
+                                {product.tag}
+                              </span>
+                            </div>
+                          )}
                           <p style={{ fontSize: '0.62rem', color: 'rgba(10,17,40,0.4)', fontWeight: 600, marginBottom: '0.15rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                             {product.brand}
                           </p>

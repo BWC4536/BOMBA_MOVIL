@@ -141,27 +141,6 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
           </span>
         </div>
 
-        {/* Promo ribbon */}
-        {tagBg && product.tag && (
-          <div className="absolute top-3 left-0">
-            <div
-              className="flex items-center text-white"
-              style={{
-                background: tagBg,
-                fontSize: '0.65rem',
-                fontWeight: 800,
-                letterSpacing: '0.08em',
-                paddingLeft: '12px',
-                paddingRight: '18px',
-                paddingTop: '5px',
-                paddingBottom: '5px',
-                clipPath: 'polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)',
-              }}
-            >
-              {product.tag}
-            </div>
-          </div>
-        )}
 
         {/* Discount badge */}
         {product.discount && (
@@ -178,6 +157,22 @@ function ProductCard({ product }: { product: typeof featuredProducts[0] }) {
 
       {/* Card body */}
       <div className="p-3 sm:p-5">
+        {tagBg && product.tag && (
+          <div className="mb-2">
+            <span
+              className="inline-block px-2 py-1 rounded-md text-white"
+              style={{
+                background: tagBg,
+                fontSize: '0.62rem',
+                fontWeight: 800,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase'
+              }}
+            >
+              {product.tag}
+            </span>
+          </div>
+        )}
         <p style={{ fontSize: '0.65rem', color: 'rgba(10,17,40,0.4)', fontWeight: 600, marginBottom: '0.2rem', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
           {product.brand}
         </p>
