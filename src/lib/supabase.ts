@@ -1,9 +1,43 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// If env vars are missing the app still loads — Supabase calls will silently fail/return empty
+export const supabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
+
+let _client: SupabaseClient | null = null
+
+function getClient(): SupabaseClient {
+  if (!_client) {
+    if (!supabaseUrl || !supabaseAnonKey) {
+      // Return a proxy that makes every call resolve to { data: null, error: null }
+      // so components can handle it gracefully without crashing
+      const noop = () => ({
+        select: () => noop(),
+        insert: () => Promise.resolve({ data: null, error: null }),
+        update: () => ({ eq: () => Promise.resolve({ data: null, error: null }) }),
+        delete: () => ({ eq: () => Promise.resolve({ data: null, error: null }) }),
+        eq: () => noop(),
+        order: () => noop(),
+        limit: () => noop(),
+        single: () => Promise.resolve({ data: null, error: null }),
+        then: (cb: (v: { data: null; error: null }) => unknown) =>
+          Promise.resolve({ data: null, error: null }).then(cb),
+      })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return { from: () => noop() } as any
+    }
+    _client = createClient(supabaseUrl, supabaseAnonKey)
+  }
+  return _client
+}
+
+export const supabase = new Proxy({} as SupabaseClient, {
+  get(_target, prop) {
+    return getClient()[prop as keyof SupabaseClient]
+  },
+})
 
 // ── Types ────────────────────────────────────────────
 export interface Product {

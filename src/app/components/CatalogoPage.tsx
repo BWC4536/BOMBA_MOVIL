@@ -2,7 +2,20 @@ import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { ShoppingCart, Star, SlidersHorizontal, X, Search, ChevronDown } from 'lucide-react'
 import { ImageWithFallback } from './figma/ImageWithFallback'
-import { supabase, type Product } from '../../lib/supabase'
+import { supabase, supabaseConfigured, type Product } from '../../lib/supabase'
+
+const FALLBACK_PRODUCTS: Product[] = [
+  { id: '1', name: 'iPhone 16 Pro Max', brand: 'Apple', storage: '256GB', ram: '8GB', condition: 'Precintado', price: 1149, original_price: 1299, tag: 'OFERTA BOMBA', discount: '-12%', image_url: '/images/iphone16promax.png', rating: 4.9, reviews: 124, stock: 5, featured: true, featured_order: 1, created_at: '' },
+  { id: '2', name: 'iPhone 15 Pro', brand: 'Apple', storage: '512GB', ram: '8GB', condition: 'Precintado', price: 899, original_price: null, tag: 'NUEVO', discount: null, image_url: '/images/iphone15pro.png', rating: 4.8, reviews: 201, stock: 3, featured: true, featured_order: 2, created_at: '' },
+  { id: '3', name: 'iPhone 15', brand: 'Apple', storage: '128GB', ram: '6GB', condition: 'Reacondicionado A+', price: 599, original_price: 749, tag: 'BOMBA PRECIO', discount: '-20%', image_url: '/images/iphone15.png', rating: 4.8, reviews: 167, stock: 8, featured: true, featured_order: 3, created_at: '' },
+  { id: '4', name: 'Samsung S24 Ultra', brand: 'Samsung', storage: '512GB', ram: '12GB', condition: 'Precintado', price: 979, original_price: null, tag: 'MÁS VENDIDO', discount: null, image_url: '/images/samsung_s24_ultra.png', rating: 4.8, reviews: 132, stock: 2, featured: true, featured_order: 4, created_at: '' },
+  { id: '5', name: 'iPhone 14 Pro', brand: 'Apple', storage: '256GB', ram: '6GB', condition: 'Reacondicionado A', price: 649, original_price: 849, tag: 'OFERTA BOMBA', discount: '-24%', image_url: '/images/iphone14pro.png', rating: 4.7, reviews: 143, stock: 6, featured: true, featured_order: 5, created_at: '' },
+  { id: '6', name: 'iPhone SE 3', brand: 'Apple', storage: '128GB', ram: '4GB', condition: 'Reacondicionado A+', price: 349, original_price: 449, tag: null, discount: '-22%', image_url: '/images/iphone_se3.png', rating: 4.7, reviews: 56, stock: 4, featured: true, featured_order: 6, created_at: '' },
+  { id: '7', name: 'iPhone 16 Pro Max', brand: 'Apple', storage: '512GB', ram: '8GB', condition: 'Precintado', price: 1349, original_price: null, tag: null, discount: null, image_url: '/images/iphone16promax.png', rating: 4.9, reviews: 88, stock: 1, featured: false, featured_order: null, created_at: '' },
+  { id: '8', name: 'iPhone 13', brand: 'Apple', storage: '256GB', ram: '4GB', condition: 'Reacondicionado B', price: 399, original_price: 549, tag: null, discount: '-27%', image_url: '/images/iphone15.png', rating: 4.6, reviews: 78, stock: 7, featured: false, featured_order: null, created_at: '' },
+  { id: '9', name: 'Samsung Galaxy S24+', brand: 'Samsung', storage: '256GB', ram: '12GB', condition: 'Precintado', price: 799, original_price: 899, tag: 'OFERTA', discount: '-11%', image_url: '/images/samsung_s24_ultra.png', rating: 4.7, reviews: 89, stock: 3, featured: false, featured_order: null, created_at: '' },
+  { id: '10', name: 'Samsung Galaxy S23', brand: 'Samsung', storage: '256GB', ram: '8GB', condition: 'Reacondicionado A+', price: 549, original_price: 699, tag: 'OFERTA BOMBA', discount: '-21%', image_url: '/images/samsung_s24_ultra.png', rating: 4.7, reviews: 74, stock: 0, featured: false, featured_order: null, created_at: '' },
+]
 
 const ORANGE = '#FF6B00'
 const NAVY = '#0A1128'
@@ -93,8 +106,8 @@ function CheckItem({
 }
 
 export default function CatalogoPage() {
-  const [allProducts, setAllProducts] = useState<Product[]>([])
-  const [dbLoading, setDbLoading] = useState(true)
+  const [allProducts, setAllProducts] = useState<Product[]>(FALLBACK_PRODUCTS)
+  const [dbLoading, setDbLoading] = useState(supabaseConfigured)
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [selectedStorages, setSelectedStorages] = useState<string[]>([])
   const [selectedConditions, setSelectedConditions] = useState<string[]>([])
@@ -104,10 +117,11 @@ export default function CatalogoPage() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   useEffect(() => {
+    if (!supabaseConfigured) return
     supabase.from('products').select('*').order('created_at', { ascending: false }).then(({ data }) => {
-      setAllProducts(data || [])
+      if (data && data.length > 0) setAllProducts(data)
       setDbLoading(false)
-    })
+    }).catch(() => setDbLoading(false))
   }, [])
 
   const brands = useMemo(() => [...new Set(allProducts.map(p => p.brand))], [allProducts])
